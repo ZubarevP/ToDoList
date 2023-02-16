@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :class="{finish: active}">
     <div 
       class="text"
       title="подробнее"
@@ -44,6 +44,10 @@
         type: Number,
         required: true,
       },
+      active: {
+        type: Boolean,
+        required: true,
+      },
       name: {
         type: String,
         required: true,
@@ -82,6 +86,10 @@
     &:hover {
       transform: scale(1.1);
     }
+  }
+
+  .finish {
+    text-decoration-line: line-through;
   }
 
   .image {

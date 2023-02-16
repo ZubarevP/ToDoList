@@ -3,14 +3,14 @@
     <div 
       v-if="open"  
       class="back"
-      @click.self="$emit('close')"
+      @click.self="close"
     >
       <div class="face">
         <div class="header">
           <h2 class="h2">{{ getTitle }}</h2>
           <div 
             class="close"
-            @click="$emit('close')"
+            @click="close"
           >x</div>
         </div>
 
@@ -22,7 +22,7 @@
             <div class="lable">название</div>
             <div class="field-show">{{ name }}</div>
           </div>
-          <div class="block">
+          <div v-if="description" class="block">
             <div class="lable">описание</div>
             <div class="field-show">{{ description }}</div>
           </div>
@@ -77,10 +77,10 @@
               id="priority" 
               v-model="list"
             >
-              <option value="0">текущее</option>
-              <option value="1">важное</option>
-              <option value="2">срочное</option>
-              <option value="3">приоритетное</option>
+              <option :value="0">текущее</option>
+              <option :value="1">важное</option>
+              <option :value="2">срочное</option>
+              <option :value="3">приоритетное</option>
             </select>
             <div class="field">{{ getListName }}</div>
           </div>
@@ -120,7 +120,7 @@
         <div class="footer">
           <button
             class="btn"
-            @click="$emit('close')"
+            @click="close"
           >{{ getCancelButtonName }}</button>
           <button 
             class="btn"
@@ -182,7 +182,7 @@
 
     watch: {
       id(value) {
-        if(value) {
+        if(value && value != -1) {
           const task = this.readTask(value);
           this.name         = task.name;
           this.description  = task.description;
@@ -255,6 +255,16 @@
         'updateTask',
       ]),
 
+      close() {
+        this.name         = "";
+        this.description  = "";
+        this.list         = 0 ;
+        this.lastDate     = "";
+        this.completeDate = "";
+        this.active       = false;
+        this.$emit('close');
+      },
+
       getDateStr(value) {
         return new Date(value)
           .toLocaleDateString("ru-RU")
@@ -263,31 +273,32 @@
           .join("-")
       },
 
+      createObj(activeValue) {
+        return {
+          name:         this.name,
+          description:  this.description,
+          list:         this.list,
+          lastDate:     this.lastDate ? 
+                         new Date(this.lastDate).valueOf(): 
+                         Date.now(),
+          completeDate: this.completeDate ? 
+                         new Date(this.completeDate).valueOf(): 
+                         0,
+          active:       activeValue,
+        };
+      },
+
       changeDB() {
         if(this.mode === "create") {
-          this.createTask({
-            name:         this.name,
-            description:  this.description,
-            list:         this.list,
-            lastDate:     this.lastDate? new Date(this.lastDate).valueOf(): Date.now(),
-            completeDate: this.completeDate ? 
-              new Date(this.completeDate).valueOf(): 
-              0,
-            active:       this.active,
-          });
-
-          this.name = "";
-          this.description = "";
-          this.list = 0;
-          this.lastDate = "";
-          this.completeDate = "";
-          this.active = false;
-        } else if(this.mode === "info") {
+          this.createTask(this.createObj(this.active));
         } else if(this.mode === "delete") {
+          this.deleteTask(this.id);
         } else if(this.mode === "complete") {
+          this.updateTask(this.id, this.createObj(true));
         } else if(this.mode === "edit") {
+          this.updateTask(this.id, this.createObj(this.active));
         }
-        this.$emit('close');
+        this.close();
       },
     },
 
@@ -315,6 +326,10 @@
   }
 
   .header {
+    @include flex-space-between;
+  }
+
+  .block {
     @include flex-space-between;
   }
 

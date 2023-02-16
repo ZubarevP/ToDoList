@@ -1,4 +1,13 @@
 <template>
+  <header>
+    <select v-model="showActive">
+      <option value="active">активные</option>
+      <option value="inactive">не активные</option>
+      <option value="all">все</option>
+    </select>
+    <input type="date" v-model="startDate">
+    <input type="date" v-model="endDate">
+  </header>
   <TaskModal
     @close="openCloseModal"
     :id="id"
@@ -16,7 +25,7 @@
 <script>
   import TaskSection from "@/components/taskSection.vue";
   import TaskModal from "@/components/taskModal.vue";
-  import { mapState } from "pinia";
+  import { mapState, mapWritableState } from "pinia";
   import { useTaskStore } from "@/stores/task.js"; 
 
   export default {
@@ -41,10 +50,17 @@
         'secondList', 
         'thirdList' 
       ]),
+
+      ...mapWritableState(useTaskStore, [
+        'showActive',
+        'startDate',
+        'endDate',
+      ]),
     },
 
     methods: {
       openCloseModal(mode, id) {
+        this.id = -1; // clear id for watch method
         if(mode) {
           this.id   = +id;
           this.open = true;

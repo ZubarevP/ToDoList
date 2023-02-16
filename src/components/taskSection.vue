@@ -5,6 +5,7 @@
       v-for="item of list"
       :date="+item.lastDate"
       :name="item.name"
+      :active="item.active"
       :key="item.createDate"
       @push="redirect($event, item.createDate)"
     ></TaskCell>
