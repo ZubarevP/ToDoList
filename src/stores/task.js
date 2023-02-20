@@ -108,9 +108,13 @@ export const useTaskStore = defineStore("tasks", {
       }
 
       if(this.startDate) {
+        const date = new Date(this.startDate).valueOf();
+        result = result.filter(el=>!el.active || el.completeDate >= date);
       }
 
       if(this.endDate) {
+        const date = new Date(this.endDate).valueOf();
+        result = result.filter(el=>el.createDate <= (date + 1000 * 60 * 60 * 24));
       }
 
       return result;
