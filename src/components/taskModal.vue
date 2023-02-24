@@ -5,130 +5,133 @@
       class="back"
       @click.self="close"
     >
-      <div class="face">
-        <div class="header">
-          <h2 class="h2">{{ getTitle }}</h2>
+      <div class="before_face">
+        <div class="face">
+          <div class="header">
+            <h2 class="h2">{{ getTitle }}</h2>
+            <div 
+              class="close"
+              title="закрыть (esc)"
+              @click="close"
+            ></div>
+          </div>
+
           <div 
-            class="close"
-            @click="close"
-          >x</div>
-        </div>
+            v-if="['info', 'delete', 'complete'].includes(mode)"
+            class="main"
+          >
+            <div v-if="mode != 'info'" class="block">
+              <div class="lable">название</div>
+              <div class="field-show">{{ name }}</div>
+            </div>
+            <div v-if="description" class="block">
+              <div class="lable">описание</div>
+              <div class="field-show">{{ description }}</div>
+            </div>
+            <div class="block">
+              <div class="lable">приоритет</div>
+              <div class="field-show">{{ getListName }}</div>
+            </div>
+            <div class="block">
+              <div class="lable">выполнить до</div>
+              <div class="field-show">{{ lastDate }}</div>
+            </div>
+            <div v-if="active" class="block">
+              <div class="lable">выполнено</div>
+              <div class="field-show">{{ completeDate }}</div>
+            </div>
+          </div>
 
-        <div 
-          v-if="['info', 'delete', 'complete'].includes(mode)"
-          class="main"
-        >
-          <div v-if="mode != 'info'" class="block">
-            <div class="lable">название</div>
-            <div class="field-show">{{ name }}</div>
+          <div 
+            v-else
+            class="main"
+          >
+            <div class="block">
+              <label 
+                for="nameinput"
+                class="lable" 
+              >название</label>
+              <input 
+                id="nameinput" 
+                class="field" 
+                type="text" 
+                v-model="name"
+              >
+            </div>
+            <div class="block">
+              <label 
+                for="description"
+                class="lable" 
+              >описание</label>
+              <input 
+                id="description" 
+                class="field" 
+                type="text" 
+                v-model="description "
+              >
+            </div>
+            <div class="block">
+              <label 
+                for="priority"
+                class="lable" 
+              >приоритет</label>
+              <select 
+                id="priority" 
+                v-model="list"
+                class="field"
+              >
+                <option :value="0">текущее</option>
+                <option :value="1">важное</option>
+                <option :value="2">срочное</option>
+                <option :value="3">приоритетное</option>
+              </select>
+            </div>
+            <div class="block">
+              <label 
+                for="last" 
+                class="label"
+              >выполнить до</label>
+              <input 
+                class="field"
+                id="last" 
+                type="date"
+                v-model="lastDate"
+              >
+            </div>
+            <div class="block">
+              <label 
+                for="active" 
+                class="label"
+              >выполнено</label>
+              <input 
+                id="active"
+                class="check"
+                type="checkbox"
+                v-model="active"
+              >
+              <input 
+                v-if="active"
+                id="complete"
+                class="field"
+                type="date"
+                v-model="completeDate"
+              >
+            </div>
           </div>
-          <div v-if="description" class="block">
-            <div class="lable">описание</div>
-            <div class="field-show">{{ description }}</div>
-          </div>
-          <div class="block">
-            <div class="lable">приоритет</div>
-            <div class="field-show">{{ getListName }}</div>
-          </div>
-          <div class="block">
-            <div class="lable">выполнить до</div>
-            <div class="field-show">{{ lastDate }}</div>
-          </div>
-          <div v-if="active" class="block">
-            <div class="lable">выполнено</div>
-            <div class="field-show">{{ completeDate }}</div>
-          </div>
-        </div>
 
-        <div 
-          v-else
-          class="main"
-        >
-          <div class="block">
-            <label 
-              for="name"
-              class="lable" 
-            >название</label>
-            <input 
-              id="name" 
-              class="field" 
-              type="text" 
-              v-model="name"
-            >
+          <div class="footer">
+            <button
+              class="btn btn_cancel"
+              @click="close"
+            >{{ getCancelButtonName }}</button>
+            <button 
+              class="btn btn_agree"
+              v-if="mode != 'info'"
+              @click="changeDB"
+            >{{ getApplyButtonName }}</button>
           </div>
-          <div class="block">
-            <label 
-              for="description"
-              class="lable" 
-            >описание</label>
-            <input 
-              id="description" 
-              class="field" 
-              type="text" 
-              v-model="description "
-            >
-          </div>
-          <div class="block">
-            <label 
-              for="priority"
-              class="lable" 
-            >приоритет</label>
-            <select 
-              id="priority" 
-              v-model="list"
-            >
-              <option :value="0">текущее</option>
-              <option :value="1">важное</option>
-              <option :value="2">срочное</option>
-              <option :value="3">приоритетное</option>
-            </select>
-            <div class="field">{{ getListName }}</div>
-          </div>
-          <div class="block">
-            <label 
-              for="last" 
-              class="label"
-            >выполнить до</label>
-            <input 
-              class="field"
-              id="last" 
-              type="date"
-              v-model="lastDate"
-            >
-          </div>
-          <div class="block">
-            <label 
-              for="active" 
-              class="label"
-            >выполнено</label>
-            <input 
-              id="active"
-              class="check"
-              type="checkbox"
-              v-model="active"
-            >
-            <input 
-              v-if="active"
-              id="complete"
-              class="field"
-              type="date"
-              v-model="completeDate"
-            >
-          </div>
-        </div>
 
-        <div class="footer">
-          <button
-            class="btn"
-            @click="close"
-          >{{ getCancelButtonName }}</button>
-          <button 
-            class="btn"
-            v-if="mode != 'info'"
-            @click="changeDB"
-          >{{ getApplyButtonName }}</button>
         </div>
-
       </div>
     </div>
   </teleport>
@@ -172,11 +175,12 @@
     data() {
       return {
         name: "",
-        description: "",
         list: 0,
         lastDate: "",
-        completeDate: "",
         active: false,
+
+        description: "",
+        completeDate: "",
       };
     },
 
@@ -319,23 +323,74 @@
     background-color: rgba(0, 0, 0, 0.8);
   }
 
+  .before_face {
+    width: 410px;
+    border-radius: 4px;
+    background: linear-gradient(to top, #c7fb97, #fbf397, #fbc598, #fb9797);
+  }
+
   .face {
     width: 400px;
-    padding: 10px 20px;
-    background-color: yellow;
+    padding: 10px 20px 15px;
+    background-color: white;
+    border-radius: 4px;
   }
 
   .header {
     @include flex-space-between;
+    margin-bottom: 15px;
   }
 
   .block {
     @include flex-space-between;
+
+    & + & {
+      margin-top: 5px;
+    }
+  }
+
+  .field{
+    width: 60%;
+    outline: none;
+    border: none;
+    padding: 4px 15px;
+    background-color: #e3e8e8;
+    border-radius: 4px;
   }
 
   .close,
-  .btn
-  {
+  .btn {
     cursor: pointer;
+  }
+
+  .close:before {
+    content: "\2716";
+  }
+
+  .footer {
+    margin-top: 15px;
+  }
+
+  .btn {
+    padding: 5px 15px;
+    border: none;
+    color: white;
+    opacity: .7;
+
+    & + & {
+      margin-left: 10px;
+    }
+
+    &_agree {
+      background-color: #7e74d2;
+    }
+
+    &_cancel {
+      background-color: #f94a4a;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
   }
 </style>

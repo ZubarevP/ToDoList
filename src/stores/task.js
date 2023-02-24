@@ -11,7 +11,29 @@ export const useTaskStore = defineStore("tasks", {
           name: "hello", 
           list: 1, 
           lastDate: 800890,
-          createDate: 8098900,  
+          createDate: 898900,  
+          active: false,
+        },
+        {
+          name: "see later", 
+          list: 3, 
+          lastDate: 10222890932,
+          createDate: 102229080,  
+          active: false,
+        },
+        {
+          name: "not now", 
+          list: 2, 
+          lastDate: 222890932,
+          createDate: 22989080,  
+          completeDate: 2228989080, 
+          active: true,
+        },
+        {
+          name: "hello", 
+          list: 1, 
+          lastDate: 800890,
+          createDate: 80980,  
           active: false,
         },
         {
@@ -25,7 +47,96 @@ export const useTaskStore = defineStore("tasks", {
           name: "not now", 
           list: 2, 
           lastDate: 222890932,
+          createDate: 2289900,  
+          completeDate: 2228989080, 
+          active: true,
+        },
+        {
+          name: "hello", 
+          list: 1, 
+          lastDate: 800890,
+          createDate: 8098900,  
+          active: false,
+        },
+        {
+          name: "see later", 
+          list: 3, 
+          lastDate: 10222890932,
+          createDate: 80,  
+          active: false,
+        },
+        {
+          name: "not now", 
+          list: 2, 
+          lastDate: 222890932,
           createDate: 2228989080,  
+          completeDate: 2228989080, 
+          active: true,
+        },
+        {
+          name: "hello", 
+          list: 1, 
+          lastDate: 800890,
+          createDate: 890,  
+          active: false,
+        },
+        {
+          name: "see later", 
+          list: 3, 
+          lastDate: 10222890932,
+          createDate: 18902228989080,  
+          active: false,
+        },
+        {
+          name: "not now", 
+          list: 2, 
+          lastDate: 222890932,
+          createDate: 2228980,  
+          completeDate: 2228989080, 
+          active: true,
+        },
+        {
+          name: "hello", 
+          list: 1, 
+          lastDate: 800890,
+          createDate: 808999900,  
+          active: false,
+        },
+        {
+          name: "see later", 
+          list: 3, 
+          lastDate: 10222890932,
+          createDate: 102228989082320,  
+          active: false,
+        },
+        {
+          name: "not now", 
+          list: 2, 
+          lastDate: 222890932,
+          createDate: 2228989084620,  
+          completeDate: 2228989080, 
+          active: true,
+        },
+        {
+          name: "hello", 
+          list: 1, 
+          lastDate: 800890,
+          createDate: 8098908900,  
+          active: false,
+        },
+        {
+          name: "see later", 
+          list: 3, 
+          lastDate: 10222890932,
+          createDate: 10222898798789,  
+          active: false,
+        },
+        {
+          name: "not now", 
+          list: 2, 
+          lastDate: 222890932,
+          createDate: 22289890777780,  
+          completeDate: 2228989080, 
           active: true,
         },
       ],
@@ -98,44 +209,77 @@ export const useTaskStore = defineStore("tasks", {
       return result;
     },
 
-    filters(array) {
+    filters(array, active, start, end) {
       let result = array;
 
-      if(this.showActive === "active") {
+      if(active === "active") {
         result = result.filter(el=>!el.active);
-      } else if(this.showActive === "inactive") {
+      } else if(active === "inactive") {
         result = result.filter(el=>el.active);
       }
 
-      if(this.startDate) {
-        const date = new Date(this.startDate).valueOf();
-        result = result.filter(el=>!el.active || el.completeDate >= date);
+      if(start) {
+        const date = new Date(start).valueOf();
+        result = result.filter(
+          el=>!el.active || el.completeDate >= date
+        );
       }
 
-      if(this.endDate) {
-        const date = new Date(this.endDate).valueOf();
-        result = result.filter(el=>el.createDate <= (date + 1000 * 60 * 60 * 24));
+      if(end) {
+        const date = new Date(end).valueOf();
+        result = result.filter(
+          el=>el.createDate <= (date + 1000 * 60 * 60 * 24)
+        );
       }
 
       return result;
     },
+
+    getList(value, active, start, end) {
+      return this.filters(
+        this.database.filter(el=>el.list === value),
+        active,
+        start,
+        end
+      );
+    }
   },
 
   getters: {
     zeroList(state) {
-      return state.filters(state.database.filter(el=>el.list === 0));
+      return state.getList(
+        0, 
+        state.showActive, 
+        state.startDate, 
+        state.endDate
+      );
     }, 
 
     firstList(state) {
-      return state.filters(state.database.filter(el=>el.list === 1));
+      return state.getList(
+        1,
+        state.showActive, 
+        state.startDate, 
+        state.endDate
+      );
     }, 
 
     secondList(state) {
-      return state.filters(state.database.filter(el=>el.list === 2));
+      return state.getList(
+        2,
+        state.showActive, 
+        state.startDate, 
+        state.endDate
+      );
     }, 
 
     thirdList(state) {
-      return state.filters(state.database.filter(el=>el.list === 3));
+      return state.getList(
+        3,
+        state.showActive, 
+        state.startDate, 
+        state.endDate
+      );
     },
   },
 });

@@ -1,13 +1,32 @@
-<template>
-  <header>
-    <select v-model="showActive">
+<template> <header 
+    class="header"
+  >
+    <h1 class="h1">ToDo list Эйзенхауэра</h1>
+  </header>
+  <aside class="aside">
+    <h3 class="h3">фильтры</h3>
+    <select 
+      class="field select"
+      v-model="showActive"
+    >
       <option value="active">активные</option>
       <option value="inactive">не активные</option>
       <option value="all">все</option>
     </select>
-    <input type="date" v-model="startDate">
-    <input type="date" v-model="endDate">
-  </header>
+    <input 
+      class="field date" 
+      type="date" 
+      v-model="startDate"
+      title="начало периода"
+    >
+    <input 
+      class="field date" 
+      type="date" 
+      v-model="endDate"
+      title="конец периода"
+    >
+    <ExcelApp/>
+  </aside>
   <TaskModal
     @close="openCloseModal"
     :id="id"
@@ -15,9 +34,10 @@
     :mode="mode"
   ></TaskModal>
   <TaskSection
+    class="section"
     v-for="item, i of listsNames"
     :list="this[item]"
-    :level="i"
+    :level="3 - i"
     @push="openCloseModal"
   ></TaskSection>
 </template>
@@ -25,6 +45,7 @@
 <script>
   import TaskSection from "@/components/taskSection.vue";
   import TaskModal from "@/components/taskModal.vue";
+  import ExcelApp from "@/components/excelCreater.vue";
   import { mapState, mapWritableState } from "pinia";
   import { useTaskStore } from "@/stores/task.js"; 
 
@@ -35,10 +56,10 @@
         id: -1,
         mode: "info",
         listsNames: [
-          'zeroList', 
-          'firstList', 
+          'thirdList',
           'secondList', 
-          'thirdList'
+          'firstList', 
+          'zeroList', 
         ],
       };
     },
@@ -48,7 +69,7 @@
         'zeroList', 
         'firstList', 
         'secondList', 
-        'thirdList' 
+        'thirdList',
       ]),
 
       ...mapWritableState(useTaskStore, [
@@ -73,10 +94,80 @@
 
     components: { 
       TaskSection, 
-      TaskModal 
-    }
+      TaskModal, 
+      ExcelApp
+    },
+
+    created() {
+      window.addEventListener("keyup", (e)=>{
+        if(e.key === "Enter" && e.ctrlKey) {
+          this.openCloseModal('create', 0);
+        }
+
+        if(e.key === "Escape") {
+          this.openCloseModal();
+        }
+      });
+    },
   };
 </script>
 
 <style lang="scss" scoped>
+  @import "@/assets/variables";
+
+  .header {
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    @include flex;
+    align-items: center;
+    padding-left: 20px;
+  }
+
+  .h1 {
+    color: silver;
+    letter-spacing: 2px;
+  }
+
+  .h3 {
+    text-align: center;
+  }
+
+  .aside {
+    grid-column: 1 / 2;
+    grid-row: 2 / 4;
+  }
+
+  .field {
+    margin-top: 10px;
+    border: none;
+    outline: none;
+    background-color: #e3e8e8;
+    border-radius: 3px;
+    width: 95%;
+    padding: 2px 5px;
+    opacity: .7;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    & + & {
+      margin-top: 5px;
+    }
+  }
+
+  .btn {
+    display: inline-block;
+    border: none; 
+    padding: 5px 15px;
+    background-color: #7e74d2;
+    color: white;
+    margin: 10px auto;
+    opacity: .7;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 </style>

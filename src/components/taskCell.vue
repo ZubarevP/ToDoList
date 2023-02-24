@@ -6,38 +6,41 @@
       @click="$emit('push', 'info')"
     >{{ getDate + " - " + name}}</div>
     <div class="imaga-wrapper">
-      <img 
-        class="image" 
-        src="edit.svg" 
+      <EditIcon 
+        class="image"
         alt="редактировать задачу"
         title="изменить"
         @click="$emit('push', 'edit')"
-      >
-      <img 
+      />
+      <CheckIcon
         class="image" 
-        src="check.svg" 
+        :active="active"
         alt="завершить задачу"
-        title="завершить"
         @click="$emit('push', 'complete')"
-      >
-      <img 
+        title="завершить"
+      />
+      <DeleteIcon
         class="image" 
-        src="delete.svg" 
         alt="удалить задачу"
         title="удалить"
         @click="$emit('push', 'delete')"
-      >
-      <img 
+      />
+      <DragIcon
         class="image" 
-        src="drag.svg" 
         alt="поменять приоритет задачу"
         title="перенести в другой список"
-      >
+      />
     </div>
   </div>
 </template>
 
 <script>
+  import EditIcon from "@/components/icons/editIcon.vue";
+  import AddIcon from "@/components/icons/addIcon.vue";
+  import DeleteIcon from "@/components/icons/deleteIcon.vue";
+  import CheckIcon from "@/components/icons/checkIcon.vue";
+  import DragIcon from "@/components/icons/dragIcon.vue";
+  
   export default {
     props: {
       date: {
@@ -64,6 +67,8 @@
     },
 
     emits: [ 'push' ],
+
+    components: { EditIcon, AddIcon, DeleteIcon, CheckIcon, DragIcon },
   };
 </script>
 
@@ -75,7 +80,8 @@
     padding: 0px 10px;
 
     &:hover {
-      background-color: #f5ebeb;
+      background-color: #dadaf3;
+      border-radius: 4px;
     }
   }
 
@@ -95,10 +101,11 @@
   .image {
     width: 22px;
     cursor: pointer;
-    opacity: .6;
+    opacity: .3;
+    transform: scale(0.8);
 
     & + & {
-      margin-left: 5px;
+      margin-left: 2px;
     }
 
     &:hover {
