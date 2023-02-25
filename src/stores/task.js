@@ -6,144 +6,27 @@ export const useTaskStore = defineStore("tasks", {
       showActive: "active",
       startDate: "",
       endDate: "",
-      database: [
-        {
-          name: "hello", 
-          list: 1, 
-          lastDate: 800890,
-          createDate: 898900,  
-          active: false,
-        },
-        {
-          name: "see later", 
-          list: 3, 
-          lastDate: 10222890932,
-          createDate: 102229080,  
-          active: false,
-        },
-        {
-          name: "not now", 
-          list: 2, 
-          lastDate: 222890932,
-          createDate: 22989080,  
-          completeDate: 2228989080, 
-          active: true,
-        },
-        {
-          name: "hello", 
-          list: 1, 
-          lastDate: 800890,
-          createDate: 80980,  
-          active: false,
-        },
-        {
-          name: "see later", 
-          list: 3, 
-          lastDate: 10222890932,
-          createDate: 102228989080,  
-          active: false,
-        },
-        {
-          name: "not now", 
-          list: 2, 
-          lastDate: 222890932,
-          createDate: 2289900,  
-          completeDate: 2228989080, 
-          active: true,
-        },
-        {
-          name: "hello", 
-          list: 1, 
-          lastDate: 800890,
-          createDate: 8098900,  
-          active: false,
-        },
-        {
-          name: "see later", 
-          list: 3, 
-          lastDate: 10222890932,
-          createDate: 80,  
-          active: false,
-        },
-        {
-          name: "not now", 
-          list: 2, 
-          lastDate: 222890932,
-          createDate: 2228989080,  
-          completeDate: 2228989080, 
-          active: true,
-        },
-        {
-          name: "hello", 
-          list: 1, 
-          lastDate: 800890,
-          createDate: 890,  
-          active: false,
-        },
-        {
-          name: "see later", 
-          list: 3, 
-          lastDate: 10222890932,
-          createDate: 18902228989080,  
-          active: false,
-        },
-        {
-          name: "not now", 
-          list: 2, 
-          lastDate: 222890932,
-          createDate: 2228980,  
-          completeDate: 2228989080, 
-          active: true,
-        },
-        {
-          name: "hello", 
-          list: 1, 
-          lastDate: 800890,
-          createDate: 808999900,  
-          active: false,
-        },
-        {
-          name: "see later", 
-          list: 3, 
-          lastDate: 10222890932,
-          createDate: 102228989082320,  
-          active: false,
-        },
-        {
-          name: "not now", 
-          list: 2, 
-          lastDate: 222890932,
-          createDate: 2228989084620,  
-          completeDate: 2228989080, 
-          active: true,
-        },
-        {
-          name: "hello", 
-          list: 1, 
-          lastDate: 800890,
-          createDate: 8098908900,  
-          active: false,
-        },
-        {
-          name: "see later", 
-          list: 3, 
-          lastDate: 10222890932,
-          createDate: 10222898798789,  
-          active: false,
-        },
-        {
-          name: "not now", 
-          list: 2, 
-          lastDate: 222890932,
-          createDate: 22289890777780,  
-          completeDate: 2228989080, 
-          active: true,
-        },
-      ],
+      database: [],
     };
   },
 
   actions: {
+    serialize() {
+      window
+        .localStorage
+        .setItem("tasks", JSON.stringify(this.database));
+    },
+
+    unserialize() {
+      const data = window
+        .localStorage
+        .getItem("tasks");
+
+      if(data) {
+        this.database = JSON.parse(data);
+      }
+    },
+
     createTask(task) {
       const fields = [
         'name',

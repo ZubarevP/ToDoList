@@ -46,7 +46,7 @@
   import TaskSection from "@/components/taskSection.vue";
   import TaskModal from "@/components/taskModal.vue";
   import ExcelApp from "@/components/excelCreater.vue";
-  import { mapState, mapWritableState } from "pinia";
+  import { mapState, mapWritableState, mapActions } from "pinia";
   import { useTaskStore } from "@/stores/task.js"; 
 
   export default {
@@ -80,6 +80,11 @@
     },
 
     methods: {
+      ...mapActions(useTaskStore, [
+        'serialize',
+        'unserialize',
+      ]),
+
       openCloseModal(mode, id) {
         this.id = -1; // clear id for watch method
         if(mode) {
@@ -99,6 +104,10 @@
     },
 
     created() {
+      window.addEventListener("beforeunload", ()=>{
+        this.serialize();
+      });
+
       window.addEventListener("keyup", (e)=>{
         if(e.key === "Enter" && e.ctrlKey) {
           this.openCloseModal('create', 0);
@@ -108,6 +117,8 @@
           this.openCloseModal();
         }
       });
+
+      this.unserialize();
     },
   };
 </script>
