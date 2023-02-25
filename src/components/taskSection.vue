@@ -1,13 +1,21 @@
 <template>
-  <div class="wrapper">
+  <div 
+    class="wrapper"
+    @dragover.prevent
+    @dragenter.prevent
+    @drop.prevent="onDrop($event, level)"
+  >
     <div class="title">{{ getTitle }}</div>
-    <div class="tasks">
+    <div class="tasks"
+    >
       <TaskCell
         v-for="item of list"
         :date="+item.lastDate"
         :name="item.name"
         :active="item.active"
         :key="item.createDate"
+        draggable="true"
+        @dragstart="dragStart($event, item.createDate)"
         @push="redirect($event, item.createDate)"
       ></TaskCell>
     </div>
@@ -22,6 +30,8 @@
 <script>
   import TaskCell from "@/components/taskCell.vue";
   import AddIcon from "@/components/icons/addIcon.vue";
+  import { mapActions } from "pinia";
+  import { useTaskStore } from "@/stores/task.js"; 
 
   export default {
     props: {
@@ -40,6 +50,23 @@
     },
 
     methods: {
+      ...mapActions(useTaskStore, ['changeList']),
+
+      dragStart(evt, id) {
+        if(evt && id) {
+          evt.dataTransfer.dropEffect = "move";
+          evt.dataTransfer.effectAllowed = "move";
+          evt.dataTransfer.setData('itemID', id.toString());
+        }
+      },
+
+      onDrop(evt, list) {
+        if(evt && typeof(list) === "number") {
+          const itemID = evt.dataTransfer.getData('itemID');
+          this.changeList(+itemID, +list);
+        }
+      },
+
       redirect(mode, id) {
         this.$emit("push", mode, id);
       },
@@ -84,6 +111,7 @@
     font-weight: 600;
     text-transform: uppercase;
     padding: 5px;
+    user-select: none;
   }
 
   .img {

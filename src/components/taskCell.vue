@@ -1,11 +1,14 @@
 <template>
-  <div class="wrapper" :class="{finish: active}">
+  <div 
+    class="wrapper" 
+    :class="{finish: active}"
+  >
     <div 
       class="text"
       title="подробнее"
       @click="$emit('push', 'info')"
     >{{ getDate + " - " + name}}</div>
-    <div class="imaga-wrapper">
+    <div class="image-wrapper">
       <EditIcon 
         class="image"
         alt="редактировать задачу"
@@ -90,12 +93,12 @@
     cursor: pointer;
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.01);
     }
   }
 
-  .finish {
-    text-decoration-line: line-through;
+  .image-wrapper {
+    flex-shrink: 0;
   }
 
   .image {
@@ -112,5 +115,10 @@
       transform: scale(1.1);
       opacity: 1;
     }
+  }
+
+  .finish {
+    text-decoration-line: line-through;
+    opacity: 1;
   }
 </style>

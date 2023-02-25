@@ -11,10 +11,4 @@
 </template>
 
 <style lang="scss" scoped>
-  .svg {
-
-    &:hover {
-      fill: green;
-    }
-  }
 </style>
