@@ -11,6 +11,11 @@ export const useTaskStore = defineStore("tasks", {
   },
 
   actions: {
+    changeList(id, list) {
+      const item = this.database.find(el=>el.createDate === id);
+      item.list = list;
+    },
+
     serialize() {
       window
         .localStorage
