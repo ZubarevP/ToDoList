@@ -11,18 +11,17 @@
         @push="redirect($event, item.createDate)"
       ></TaskCell>
     </div>
-    <img 
+    <AddIcon
       class="img"
-      src="add.svg" 
-      alt="add task"
       title="добавить новую задачу (ctrl + enter)"
       @click="redirect('create', 0)"
-    >
+    />
   </div>
 </template>
 
 <script>
   import TaskCell from "@/components/taskCell.vue";
+  import AddIcon from "@/components/icons/addIcon.vue";
 
   export default {
     props: {
@@ -68,7 +67,7 @@
 
     emits: ['push'],
 
-    components: { TaskCell },
+    components: { TaskCell, AddIcon },
   };
 </script>
 
