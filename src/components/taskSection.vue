@@ -39,8 +39,7 @@
         type: Number,
         required: true,
         validator(value) {
-          const values = [ 0, 1, 2, 3];
-          return values.includes(value);
+          return [ 0, 1, 2, 3 ].includes(value);
         },
       },
       list: {
@@ -105,7 +104,7 @@
 
   .tasks {
     max-height: calc(100% - 65px);
-    overflow-y: scroll;  
+    overflow-y: auto;  
   }
 
   .title {

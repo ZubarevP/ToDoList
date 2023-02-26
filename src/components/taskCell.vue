@@ -82,6 +82,7 @@
     @include flex-space-between;;
     padding: 0px 10px;
     border-bottom: 1px solid silver;
+    margin-bottom: 10px;
 
     &:hover {
       background-color: #dadaf3;

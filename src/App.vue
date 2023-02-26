@@ -88,14 +88,15 @@
       ]),
 
       openCloseModal(mode, id, level) {
-        this.id = -1; // clear id for watch method
+        this.id       = -1; // clear id for watch method
+        this.level    = 0;  // clear level for watch method
         if(mode) {
-          this.id   = +id;
-          this.open = true;
-          this.mode = mode;
-          this.level = level ? level : 0;
+          this.id     = +id;
+          this.open   = true;
+          this.mode   = mode;
+          this.level  = level ? level : 0;
         } else {
-          this.open = false;
+          this.open   = false;
         }
       },
     },

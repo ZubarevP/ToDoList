@@ -120,7 +120,7 @@ export const useTaskStore = defineStore("tasks", {
         );
       }
 
-      return result;
+      return result.sort((lhs, rhs)=>lhs.lastDate - rhs.lastDate);
     },
 
     getList(value, active, start, end) {

@@ -44,6 +44,9 @@
   import { useTaskStore } from "@/stores/task.js"; 
   import  ExcelJS  from "exceljs";
 
+  const COLUMN_CONTENT_WIDTH = 60;
+  const ROW_HEIGHT = 13;
+
   export default {
     mounted() {
       let one, two, three, four;
@@ -129,7 +132,8 @@
       fillCell( cell ) {
         cell.alignment  = {
           horizontal: 'left',
-          vertical:   'justify',
+          vertical: 'top',
+          wrapText: true,
         };
         cell.border = this.fillBorder("thin", "FF000000");
         cell.font = {
@@ -181,7 +185,13 @@
           10
         );
 
-        sheet.columns = [{width: 4},{width: 4},{width: 60},{width: 4},{width: 60}];
+        sheet.columns = [
+          {width: 4},
+          {width: 4},
+          {width: COLUMN_CONTENT_WIDTH},
+          {width: 4},
+          {width: COLUMN_CONTENT_WIDTH}
+        ];
 
         ['A', 'B', 'C', 'D', 'E'].forEach(el=>{
           for(let i = 1; i <= (2 * heightOfBlock + 2); i++) {
@@ -220,6 +230,31 @@
 
       },
 
+      getNumOfStrings(value) {
+        if(!value) return 1;
+        return value / COLUMN_CONTENT_WIDTH + (value % COLUMN_CONTENT_WIDTH ? 1 : 0);
+      },
+
+      setHightOfRow(sheet) {
+        sheet.eachRow((row, num)=>{
+          const firstCell  = row.getCell(3).value;
+          const secondCell = row.getCell(5).value;
+          let amount = 1;
+          if( typeof(firstCell) === "string") {
+            const result = 
+              this.getNumOfStrings(firstCell.length);
+            amount = Math.max(amount, result);
+          }
+
+          if(typeof(secondCell) === "string") {
+            const result = 
+              this.getNumOfStrings(secondCell.length);
+            amount = Math.max(amount, result);
+          }
+          row.height = amount * ROW_HEIGHT;
+        });
+      },
+
       createFile() {
         const workbook = new ExcelJS.Workbook();
 
@@ -241,6 +276,9 @@
 
         this.constructSheet(newSheet, this.now);
         this.constructSheet(oldSheet, this.past);
+
+        this.setHightOfRow(newSheet);
+        this.setHightOfRow(oldSheet);
 
         workbook.xlsx.writeBuffer({base64: true})
           .then(xls64=>{
