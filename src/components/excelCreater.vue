@@ -105,15 +105,16 @@
         };
       },
 
-      fillTitleCell(cell, title, backgroundColor) {
+      fillTitleCell(cell, title, backgroundColor, rotate = 0) {
         cell.value      = title;
         cell.alignment  = {
           horizontal: 'center',
           vertical:   'middle',
+          textRotation: rotate,
         };
         cell.fill = {
           type:       "pattern",
-          pattern:    "darkTrellis",
+          pattern:    "solid",
           fgColor: { argb: backgroundColor},
         };
         cell.border = this.fillBorder("medium", "FF000000");
@@ -203,12 +204,12 @@
         const asideBottom = sheet.getCell(`A${heightOfBlock + 3}`);
 
         [
-          [ topLeft,      "СРОЧНО",                 "FFFA6868" ],
-          [ topRight,     "НЕ СРОЧНО",              "FFF9CB9C" ],
-          [ bottomLeft,   "СРОЧНО/НЕ ВАЖНО",        "FFE19009" ],
-          [ bottomRight,  "НЕ СРОЧНО/НЕ ВАЖНО",     "FFFFE599" ],
-          [ asideTop,     "В\nА\nЖ\nН\nО",          "FFFA6868" ],
-          [ asideBottom,  "Н\nЕ\n \nВ\nА\nЖ\nН\nО", "FFE19009" ],
+          [ topLeft,      "СРОЧНО",             "FFFA6868", 0  ],
+          [ topRight,     "НЕ СРОЧНО",          "FFF9CB9C", 0  ],
+          [ bottomLeft,   "СРОЧНО/НЕ ВАЖНО",    "FFE19009", 0  ],
+          [ bottomRight,  "НЕ СРОЧНО/НЕ ВАЖНО", "FFFFE599", 0  ],
+          [ asideTop,     "ВАЖНО",              "FFFA6868", 90 ],
+          [ asideBottom,  "НЕ ВАЖНО",           "FFE19009", 90 ],
         ].forEach(el=>this.fillTitleCell(...el));
 
         
