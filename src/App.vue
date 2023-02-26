@@ -32,6 +32,7 @@
     :id="id"
     :open="open"
     :mode="mode"
+    :level="level"
   ></TaskModal>
   <TaskSection
     class="section"
@@ -55,6 +56,7 @@
         open: false,
         id: -1,
         mode: "info",
+        level: 0,
         listsNames: [
           'thirdList',
           'secondList', 
@@ -85,12 +87,13 @@
         'unserialize',
       ]),
 
-      openCloseModal(mode, id) {
+      openCloseModal(mode, id, level) {
         this.id = -1; // clear id for watch method
         if(mode) {
           this.id   = +id;
           this.open = true;
           this.mode = mode;
+          this.level = level ? level : 0;
         } else {
           this.open = false;
         }

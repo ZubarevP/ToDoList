@@ -50,9 +50,9 @@
       const now = new Date().getDay();
       if(!now) {
         this.past.start = this.getDate(13, "-");
-        this.past.end   = this.getDate(7,  "-");
+        this.past.end   = this.getDate(9,  "-");
         this.now.start  = this.getDate(6,  "-");
-        this.now.end    = this.getDate(1,  "-");
+        this.now.end    = this.getDate(2,  "-");
       } else {
         this.past.start = this.getDate((6 + now), "-");
         this.past.end   = this.getDate((now + 2), "-");

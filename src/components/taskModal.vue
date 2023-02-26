@@ -34,11 +34,11 @@
             </div>
             <div class="block">
               <div class="lable">выполнить до</div>
-              <div class="field-show">{{ lastDate }}</div>
+              <div class="field-show">{{ new Date(lastDate).toLocaleDateString("ru-RU") }}</div>
             </div>
             <div v-if="active" class="block">
               <div class="lable">выполнено</div>
-              <div class="field-show">{{ completeDate }}</div>
+              <div class="field-show">{{ new Date(completeDate).toLocaleDateString("ru-RU") }}</div>
             </div>
           </div>
 
@@ -51,24 +51,26 @@
                 for="nameinput"
                 class="lable" 
               >название</label>
-              <input 
+              <textarea
                 id="nameinput" 
                 class="field" 
                 type="text" 
+                rows="4"
                 v-model="name"
-              >
+              ></textarea>
             </div>
             <div class="block">
               <label 
                 for="description"
                 class="lable" 
               >описание</label>
-              <input 
+              <textarea
                 id="description" 
                 class="field" 
                 type="text" 
+                rows="6"
                 v-model="description "
-              >
+              ></textarea>
             </div>
             <div class="block">
               <label 
@@ -92,7 +94,7 @@
                 class="label"
               >выполнить до</label>
               <input 
-                class="field"
+                class="field date"
                 id="last" 
                 type="date"
                 v-model="lastDate"
@@ -109,10 +111,18 @@
                 type="checkbox"
                 v-model="active"
               >
+            </div>
+            <div 
+              class="block"
+              v-if="active"
+            >
+              <label 
+                for="complete" 
+                class="label"
+              >дата выполнения</label>
               <input 
-                v-if="active"
                 id="complete"
-                class="field"
+                class="field date"
                 type="date"
                 v-model="completeDate"
               >
@@ -151,6 +161,14 @@
         },
       },
 
+      level: {
+        type: Number,
+        required: true,
+        validator(value) {
+          return value >= 0 || value <= 3;
+        }
+      },
+
       open: {
         type: Boolean,
         required: true,
@@ -185,6 +203,10 @@
     },
 
     watch: {
+      level(value) {
+        this.list = value;
+      },
+
       id(value) {
         if(value && value != -1) {
           const task = this.readTask(value);
@@ -324,13 +346,13 @@
   }
 
   .before_face {
-    width: 410px;
+    width: 510px;
     border-radius: 4px;
     background: linear-gradient(to top, #c7fb97, #fbf397, #fbc598, #fb9797);
   }
 
   .face {
-    width: 400px;
+    width: 500px;
     padding: 10px 20px 15px;
     background-color: white;
     border-radius: 4px;
@@ -349,6 +371,10 @@
     }
   }
 
+  .field-show {
+    width: 60%;
+  }
+
   .field{
     width: 60%;
     outline: none;
@@ -356,6 +382,10 @@
     padding: 4px 15px;
     background-color: #e3e8e8;
     border-radius: 4px;
+  }
+
+  .date {
+    width: 200px;
   }
 
   .close,

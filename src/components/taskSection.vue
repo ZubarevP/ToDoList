@@ -22,7 +22,7 @@
     <AddIcon
       class="img"
       title="добавить новую задачу (ctrl + enter)"
-      @click="redirect('create', 0)"
+      @click="redirect('create', 0, level)"
     />
   </div>
 </template>
@@ -67,8 +67,8 @@
         }
       },
 
-      redirect(mode, id) {
-        this.$emit("push", mode, id);
+      redirect(mode, id, level) {
+        this.$emit("push", mode, id, level);
       },
     },
 
@@ -99,6 +99,10 @@
 </script>
 
 <style lang="scss" scoped>
+.wrapper::backdrop {
+  background-color: lightblue;
+}
+
   .tasks {
     max-height: calc(100% - 65px);
     overflow-y: scroll;  
@@ -117,7 +121,7 @@
   .img {
     display: block;
     width: 22px;
-    margin: 0 auto;
+    margin: 5px auto 0;
     opacity: .8;
     transition: .1s;
 
