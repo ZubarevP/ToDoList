@@ -81,10 +81,12 @@
   .wrapper {
     @include flex-space-between;;
     padding: 0px 10px;
+    border-bottom: 1px solid silver;
 
     &:hover {
       background-color: #dadaf3;
-      border-radius: 4px;
+      border-radius: 0 0 4px 4px;
+      border-bottom: 1px solid black;
     }
   }
 
