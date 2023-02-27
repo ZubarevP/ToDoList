@@ -12,6 +12,8 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: 20vw 40vw 40vw;
+  grid-template-columns: 200px calc(50vw - 100px) calc(50vw - 100px);
   grid-template-rows: 10vh 45vh 45vh;
+  background: no-repeat right bottom url("build.png");
+
 }

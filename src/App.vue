@@ -10,7 +10,7 @@
       v-model="showActive"
     >
       <option value="active">активные</option>
-      <option value="inactive">не активные</option>
+      <option value="inactive">завершенные</option>
       <option value="all">все</option>
     </select>
     <input 
@@ -150,6 +150,7 @@
   .aside {
     grid-column: 1 / 2;
     grid-row: 2 / 4;
+    padding: 0 10px;
   }
 
   .field {
