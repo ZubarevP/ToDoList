@@ -300,6 +300,9 @@
       },
 
       createObj(activeValue) {
+        if(this.mode === "complete") {
+          this.completeDate = Date.now();
+        }
         return {
           name:         this.name,
           description:  this.description,
