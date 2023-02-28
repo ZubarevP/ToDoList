@@ -54,7 +54,6 @@
               <textarea
                 id="nameinput" 
                 class="field" 
-                type="text" 
                 rows="4"
                 v-model="name"
               ></textarea>
@@ -67,7 +66,6 @@
               <textarea
                 id="description" 
                 class="field" 
-                type="text" 
                 rows="6"
                 v-model="description "
               ></textarea>
@@ -218,6 +216,12 @@
             this.getDateStr(task.completeDate):
             "";
           this.active       = task.active;
+        }
+      },
+
+      open(value) {
+        if(value === true) {
+          this.$nextTick(()=>{document.getElementById("nameinput").focus()});
         }
       },
 
