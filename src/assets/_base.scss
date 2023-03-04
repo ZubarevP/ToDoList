@@ -30,13 +30,16 @@
 @keyframes click-button {
   25% {
     transform: scaleX(1.2) scaleY(0.8);
+    border-radius: 2px;
   }
 
   50% {
     transform: scaleX(0.8) scaleY(1.2);
+    border-radius: 5px;
   }
 
   75% {
     transform: scaleX(1.1) scaleY(0.9);
+    border-radius: 2px;
   }
 }

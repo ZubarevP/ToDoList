@@ -360,7 +360,6 @@
 
     &:active {
       animation: click-button .3s;
-      border-radius: 5px;
     }
   }
 </style>
