@@ -353,6 +353,14 @@
     color: white;
     margin: 10px auto;
     opacity: .7;
-    @include tremble;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:active {
+      animation: click-button .3s;
+      border-radius: 5px;
+    }
   }
 </style>
