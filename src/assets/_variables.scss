@@ -24,7 +24,7 @@
 }
 
 @mixin tremble {
-  transiton: .1s;
+  transition: .1s;
 
   &:hover {
     opacity: 1;

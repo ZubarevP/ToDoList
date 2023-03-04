@@ -42,7 +42,7 @@
 <script>
   import { mapActions } from "pinia";
   import { useTaskStore } from "@/stores/task.js"; 
-  import  ExcelJS  from "exceljs";
+  //  import  ExcelJS  from "exceljs";
 
   const COLUMN_CONTENT_WIDTH = 60;
   const ROW_HEIGHT = 13;
@@ -255,7 +255,8 @@
         });
       },
 
-      createFile() {
+     async createFile() {
+        const ExcelJS = await import("exceljs");
         const workbook = new ExcelJS.Workbook();
 
         const newSheet = workbook.addWorksheet(
