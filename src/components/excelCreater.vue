@@ -352,9 +352,6 @@
     color: white;
     margin: 10px auto;
     opacity: .7;
-
-    &:hover {
-      opacity: 1;
-    }
+    @include tremble;
   }
 </style>

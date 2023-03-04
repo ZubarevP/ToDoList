@@ -98,9 +98,12 @@
 </script>
 
 <style lang="scss" scoped>
-.wrapper::backdrop {
-  background-color: lightblue;
-}
+  @import "@/assets/variables";
+
+
+  .wrapper::backdrop {
+    background-color: lightblue;
+  }
 
   .tasks {
     max-height: calc(100% - 65px);
@@ -122,11 +125,6 @@
     width: 22px;
     margin: 5px auto 0;
     opacity: .8;
-    transition: .1s;
-
-    &:hover {
-      opacity: 1;
-      transform: scale(1.1);
-    }
+    @include tremble;
   }
 </style>

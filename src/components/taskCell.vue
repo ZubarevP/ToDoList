@@ -109,14 +109,10 @@
     cursor: pointer;
     opacity: .3;
     transform: scale(0.8);
+    @include tremble;
 
     & + & {
       margin-left: 2px;
-    }
-
-    &:hover {
-      transform: scale(1.1);
-      opacity: 1;
     }
   }
 

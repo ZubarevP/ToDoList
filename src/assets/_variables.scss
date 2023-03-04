@@ -22,3 +22,13 @@
   @include flex-center;
   flex-direction: column;
 }
+
+@mixin tremble {
+  transiton: .1s;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    animation: over-button .3s;
+  }
+}
