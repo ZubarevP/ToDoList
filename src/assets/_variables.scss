@@ -31,4 +31,9 @@
     transform: scale(1.1);
     animation: over-button .3s;
   }
+
+  &:active {
+    animation: click-button .3s;
+    border-radius: 5px;
+  }
 }

@@ -27,4 +27,19 @@
   }
 }
 
+@keyframes click-button {
+  25% {
+    transform: scaleY(0.8);
+    transform: scaleX(1.2);
+  }
 
+  50% {
+    transform: scaleY(1.2);
+    transform: scaleX(0.8);
+  }
+
+  75% {
+    transform: scaleY(0.9);
+    transform: scaleX(1.1);
+  }
+}

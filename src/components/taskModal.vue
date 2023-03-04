@@ -220,7 +220,7 @@
       },
 
       open(value) {
-        if(value === true) {
+        if(value === true && !['info', 'delete', 'complete'].includes(this.mode)) {
           this.$nextTick(()=>{document.getElementById("nameinput").focus()});
         }
       },
