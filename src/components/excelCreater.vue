@@ -259,18 +259,18 @@
         const ExcelJS = await import("exceljs");
         const workbook = new ExcelJS.Workbook();
 
-        const newSheet = workbook.addWorksheet(
-          this.getDateRangeStr(this.now.start, this.now.end),
-          { 
-            properties: { tabColor: {argb: "FF00FF00"}, }, 
-            pageSetup: {paperSize: 9, orientation: "landscape"},
-          }
-        );
-
         const oldSheet = workbook.addWorksheet(
           this.getDateRangeStr(this.past.start, this.past.end),
           { 
             properties: { tabColor: {argb: "FFAAAAAA"}, }, 
+            pageSetup: {paperSize: 9, orientation: "landscape"},
+          }
+        );
+
+        const newSheet = workbook.addWorksheet(
+          this.getDateRangeStr(this.now.start, this.now.end),
+          { 
+            properties: { tabColor: {argb: "FF00FF00"}, }, 
             pageSetup: {paperSize: 9, orientation: "landscape"},
           }
         );
@@ -289,7 +289,7 @@
             });
             const url = URL.createObjectURL(data);
             link.href = url;
-            link.download = `Матрица Зубарев П.И. ${this.getDateRangeStr(this.now.start, this.now.end)}.xlsx`;
+            link.download = `Матрица Зубарев ${this.getDateRangeStr(this.now.start, this.now.end)}.xlsx`;
             document.body.appendChild(link);
             link.click();
             setTimeout(()=>{
